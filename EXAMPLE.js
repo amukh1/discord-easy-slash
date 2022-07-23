@@ -11,12 +11,12 @@ client.command('help', 1, 'help command', null)
 
 
 
-function handler(command, data, res, type){
+function handler(command, data, msg, type){
   console.log(`Command recived: ${command}`)
   if(command == 'test2'){
-    client.reply(res, 'Hello world 2?', null)
+    client.reply(msg, 'Hello world 2?', null)
   }else if(command == 'help'){
-    client.reply(res, 'Help command?', null)
+    client.reply(msg, 'Help command?', null)
   }else {
     let e = [
    {
@@ -44,7 +44,7 @@ function handler(command, data, res, type){
                 "timestamp": new Date()
               },
   ]
-     client.reply(res, 'Cound not find command..', e)
+     client.reply(msg, 'Cound not find command..', e)
   }
 }
 

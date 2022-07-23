@@ -95,7 +95,7 @@ console.log(name + "(Global): " + 'errors:', error);
        var server = app.listen(port, () => {
           var host = server.address()
             console.log('Listening for commands on ' + port + ' using the /event endpoint!');
-            console.warn('Remember, discord cannot make requests to localhost!')
+            console.warn('Remember, discord cannot make requests to localhost! (And please, read the documentation!)')
         });
     },
 
@@ -117,7 +117,87 @@ console.log(name + "(Global): " + 'errors:', error);
         if(event == 'slash-event'){
           package.slash_event_handler = callback;
         }
-    }
+    }, 
+
+    send(channel, msg, embed){
+      // POST https://discord.com/api/${channel}/messages
+      // send a post req to the channel with the message
+      let op = {
+        method: 'POST',
+        url: `https://discord.com/api/v10/${channel}/messages`,
+        headers: {
+          "Authorization": "Bot " + package.TOKEN,
+          "Content-Type": "application/json"
+        },
+        json: {
+          content: msg,
+          tts: false,
+          embeds: embed
+        }
+      }
+      request(op, function (error, response, body) {
+return null
+      });
+    },
+
+    react: function(channel, msg, emoji){
+      // PUT https://discord.com/api/${channel}/messages/${msg}/reactions/${emoji}/@me
+      // send a post req to the channel with the message
+      let op = {
+        method: 'PUT',
+        url: `https://discord.com/api/v10/${channel}/messages/${msg}/reactions/${emoji}/@me`,
+        headers: {
+          "Authorization": "Bot " + package.TOKEN,
+          "Content-Type": "application/json"
+        }
+      }
+      request(op, function (error, response, body) {
+return null
+      });
+    },
+    
+
+    edit: function(channel, msg, content,embed){
+      // PATCH https://discord.com/api/${channel}/messages/${msg}
+      // send a post req to the channel with the message
+      let op = {
+        method: 'PATCH',
+        url: `https://discord.com/api/v10/${channel}/messages/${msg}`,
+        headers: {
+          "Authorization": "Bot " + package.TOKEN,
+          "Content-Type": "application/json"
+        },
+        json: {
+          content: content,
+          tts: false,
+          embeds: embed
+        }
+      }
+      request(op, function (error, response, body) {
+return null
+      });
+    },
+
+    sendWithWebhook: function(webhookId, webhookToken, msg, embed){
+      // POST https://discord.com/api/webhooks/${webhookId}/${webhookToken}
+      // send a post req to the channel with the message
+      let op = {
+        method: 'POST',
+        url: `https://discord.com/api/webhooks/${webhookId}/${webhookToken}`,
+        headers: {
+          "Authorization": "Bot " + package.TOKEN,
+          "Content-Type": "application/json"
+        },
+        json: {
+          content: msg,
+          tts: false,
+          embeds: embed
+        }
+      }
+      request(op, function (error, response, body) {
+return null
+      });
+    },
      
 
     
